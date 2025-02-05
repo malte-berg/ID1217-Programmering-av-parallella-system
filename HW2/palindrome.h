@@ -13,6 +13,6 @@
 
 bool palindrome_check(char *word);
 
-void palindrome_init(char *all_words[], int no_words, bool is_palindrome[], int thread_count);
+void palindrome_init(char *all_words[], int no_words, bool is_palindrome[], bool is_semordnilap[], int thread_count);
 
 #endif

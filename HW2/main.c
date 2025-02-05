@@ -52,8 +52,9 @@ int main(int argc, char* argv[]) {
     fclose(infile);
 
     bool is_palindrome[no_words];
+    bool is_semomrdnilap[no_words];
 
-    palindrome_init(all_words, no_words, is_palindrome, atoi(argv[1]));
+    palindrome_init(all_words, no_words, is_palindrome, is_semomrdnilap, atoi(argv[1]));
 
     /* DEBUG
     for(int i = 0; i < no_words; i++) {
@@ -67,8 +68,16 @@ int main(int argc, char* argv[]) {
         perror("Error opening file");
         return 1;
     }
+    fputs("Palindromes:\n\n", outfile);
     for (int i = 0; i < no_words; i++) {
         if(is_palindrome[i]) {
+            fputs(all_words[i], outfile);
+            fputc('\n', outfile);
+        }
+    }
+    fputs("\nSemordnilaps:\n\n", outfile);
+    for (int i = 0; i < no_words; i++) {
+        if(is_semomrdnilap[i]) {
             fputs(all_words[i], outfile);
             fputc('\n', outfile);
         }
