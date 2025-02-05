@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <omp.h>
 #include <stdbool.h>
+#include <string.h>
 
 bool palindrome_check(char *word);
 

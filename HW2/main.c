@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 
     //----------------------------READING----------------------------
 
-    FILE *infile = fopen("words", "r");  // Open file for reading
+    FILE *infile = fopen("words", "r");  // Open file of words for reading
     if (infile == NULL) {
         perror("Error opening file");
         return 1;
@@ -55,17 +55,23 @@ int main(int argc, char* argv[]) {
 
     palindrome_init(all_words, no_words, is_palindrome, atoi(argv[1]));
 
+    /* DEBUG
     for(int i = 0; i < no_words; i++) {
         if(is_palindrome[i]) puts(all_words[i]);
     }
+    */
 
     //---------------------------------WRITING------------------------
-    /*
     FILE *outfile = fopen("results.txt", "w");  // Open file for reading
     if (outfile == NULL) {
         perror("Error opening file");
         return 1;
     }
-    */
+    for (int i = 0; i < no_words; i++) {
+        if(is_palindrome[i]) {
+            fputs(all_words[i], outfile);
+            fputc('\n', outfile);
+        }
+    }
     return 0;
 }
