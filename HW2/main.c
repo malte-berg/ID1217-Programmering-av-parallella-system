@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 
     //----------------------------READING----------------------------
 
-    FILE *infile = fopen("words_part1_2", "r");  // Open file of words for reading
+    FILE *infile = fopen("words", "r");  // Open file of words for reading
     if (infile == NULL) {
         perror("Error opening file");
         return 1;
@@ -65,11 +65,6 @@ int main(int argc, char* argv[]) {
     double exec_time = palindrome_init(all_words, no_words, is_palindrome, is_semomrdnilap, atoi(argv[1]));
 
     printf("Execution time: %f, No. Threads: %d, No. Words: %d \n", exec_time, atoi(argv[1]), no_words);
-    /* DEBUG
-    for(int i = 0; i < no_words; i++) {
-        if(is_palindrome[i]) puts(all_words[i]);
-    }
-    */
 
     //---------------------------------WRITING------------------------
     FILE *outfile = fopen("results.txt", "w");  // Open file for reading
