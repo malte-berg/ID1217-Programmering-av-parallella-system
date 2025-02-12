@@ -8,22 +8,27 @@
 //User defined constants
 #define DISHSIZE 10
 #define SIMDURATION 20
+#define SLEEPNOHUNGY 0.05
 
 //Standard Includes <3
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <semaphore.h>
 
 //Birds
 extern pthread_t *all_bbirds;
-extern pthread_t *pbird;
+extern pthread_t pbird;
 extern int no_bbirds;
 extern int no_worms;
 
 //Semaphores
+extern sem_t sem_mutex;
 
 //Dish and Worms
+extern int worms_in_dish;
+extern int *all_bbirds_worm_count;
 
 void hungry_birds_init(int temp_no_bbirds); //Initializes all of the preqs
 
