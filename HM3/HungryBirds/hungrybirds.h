@@ -8,7 +8,7 @@
 //User defined constants
 #define DISHSIZE 10
 #define SIMDURATION 20
-#define SLEEPNOHUNGY 50000
+#define SLEEPNOHUNGY 20000
 
 //Standard Includes <3
 #include <stdio.h>
@@ -16,15 +16,13 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <semaphore.h>
+#include <signal.h>
 
 //Birds
 extern pthread_t *all_bbirds;
 extern pthread_t pbird;
 extern int no_bbirds;
 extern int no_worms;
-
-//Semaphores
-extern sem_t sem_mutex;
 
 //Dish and Worms
 extern int worms_in_dish;
