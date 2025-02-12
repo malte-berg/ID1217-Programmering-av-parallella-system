@@ -13,7 +13,7 @@
 #include <signal.h>
 
 #define HONEYPOT_MAX_SIZE 10
-#define SLEEPTIRED 20000
+#define SLEEPTIRED 200000
 #define SIM_DURATION 20
 
 //Bees and bear

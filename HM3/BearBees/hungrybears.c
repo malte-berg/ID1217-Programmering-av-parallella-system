@@ -32,12 +32,14 @@ void *bee_buzz(void *vargp){
             printf("Bee No: %ld has added honey: %d\n", bee_index, honey_counter++);
             //Keeping track of how much honey each bee has added
             all_bees_honey_count[bee_index]++;
-            honey_in_pot++; //Honey is added
-            sem_post(&not_full);
-        } else {
-            //Pot is full
-            printf("FULL!\n");
-            sem_post(&full);
+
+            //The bee that adds the last honey signals if the pot is full after
+            if (++honey_in_pot == HONEYPOT_MAX_SIZE) {
+                printf("FULL!\n");
+                sem_post(&full);
+            } else {
+                sem_post(&not_full);
+            }
         }
         sem_post(&sem_mutex);
         usleep(SLEEPTIRED);
