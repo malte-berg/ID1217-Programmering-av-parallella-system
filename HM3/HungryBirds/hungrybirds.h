@@ -8,7 +8,7 @@
 //User defined constants
 #define DISHSIZE 10
 #define SIMDURATION 20
-#define SLEEPNOHUNGY 0.05
+#define SLEEPNOHUNGY 50000
 
 //Standard Includes <3
 #include <stdio.h>

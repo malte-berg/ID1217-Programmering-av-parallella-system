@@ -1,6 +1,7 @@
 #include "hungrybirds.h"
 #include <semaphore.h>
 #include <signal.h>
+#include <time.h>
 
 
 //Birds
@@ -45,7 +46,7 @@ void *bbird_hungy(void *vargp){ //Vargp is not used
         }
         //printf("ThreadId: %d\n", pthread_self());
         sem_post(&sem_mutex);
-        sleep(SLEEPNOHUNGY);// The birds are not hungry, is changed in .h
+        usleep(SLEEPNOHUNGY);// The birds are not hungry, is changed in .h
     }
 }
 
