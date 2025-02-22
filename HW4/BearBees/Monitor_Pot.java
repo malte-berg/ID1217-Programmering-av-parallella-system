@@ -26,12 +26,12 @@ public class Monitor_Pot {
     // For bear (consumer)
     public synchronized void eat_honey() {
         while (!pot_full) {
-
             try {
                 wait();
             } catch (InterruptedException e) { }
         }
         honey_in_pot = 0;
         pot_full = false;
+        notifyAll();
     }
 }
