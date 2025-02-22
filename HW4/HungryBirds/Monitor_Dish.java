@@ -17,6 +17,7 @@ public class Monitor_Dish {
             } catch (InterruptedException e) { }
         }
         worm_count = dish_size;
+        chirped_empty = false;
         notifyAll();
     }
 
