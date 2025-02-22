@@ -7,17 +7,21 @@ public class Monitor_Dish {
     }
     
     public synchronized void add_worm() {
-        while (worm_count == dish_size)
-            try {wait();}
-            catch (InterruptedException e) { }
+        while (worm_count == dish_size) {
+            try {
+                wait();
+            } catch (InterruptedException e) { }
+        }
         worm_count++;
         notifyAll();
     }
 
     public synchronized void eat_worm() {
-        while (worm_count == 0)
-            try { wait(); }
-            catch (InterruptedException e) { }
+        while (worm_count == 0) {
+            try { 
+                wait(); 
+            } catch (InterruptedException e) { }
+        }
         worm_coun--;
         notifyAll();
     }
