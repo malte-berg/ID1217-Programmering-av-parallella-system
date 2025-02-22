@@ -32,5 +32,6 @@ public class Monitor_Pot {
             } catch (InterruptedException e) { }
         }
         honey_in_pot = 0;
+        pot_full = false;
     }
 }
