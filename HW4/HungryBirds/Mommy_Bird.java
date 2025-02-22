@@ -8,7 +8,7 @@ public class Mommy_Bird extends Thread {
 
     public void run() {
         while (true) {
-            dish.add_worm();
+            dish.add_worms();
         }
     }
 }

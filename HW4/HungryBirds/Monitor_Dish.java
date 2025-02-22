@@ -10,7 +10,7 @@ public class Monitor_Dish {
     }
 
     // For mommy bird (producer)
-    public synchronized void add_worm() {
+    public synchronized void add_worms() {
         while (!chirped_empty) {
             try {
                 wait();
