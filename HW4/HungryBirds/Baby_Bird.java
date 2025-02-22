@@ -4,7 +4,7 @@ public class Baby_Bird extends Thread {
     private int id;
     private int[] worm_tracker;
 
-    public final long SLEEPDURATION = 0;
+    public final long SLEEPDURATION = 20;
 
     public Baby_Bird (Monitor_Dish dish, int id, int[] worm_tracker) {
         this.dish = dish;
