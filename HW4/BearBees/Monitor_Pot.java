@@ -1,5 +1,9 @@
 public class Monitor_Pot {
-    //Monitor_Pot is a monitor of type shared cell (lecture 12)
+    /** Monitor_Pot is a monitor of type shared cell (lecture 12)
+      * This type of monitor with the solution down below provides a fair
+      * solution as there is no preference for what thread goes next in the
+      * synchronized methods. It is random.
+    **/
     private int honeypot_size, honey_in_pot;
     private boolean pot_full;
 

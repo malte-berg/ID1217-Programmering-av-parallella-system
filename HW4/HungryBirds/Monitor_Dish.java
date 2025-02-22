@@ -1,5 +1,9 @@
 public class Monitor_Dish {
-    //Monitor_Dish is a monitor of type shared cell (lecture 12)
+    /** Monitor_Dish is a monitor of type shared cell (lecture 12)
+      * This type of monitor with the solution down below provides a fair
+      * solution as there is no preference for what thread goes next in the
+      * synchronized methods. It is random.
+    **/
     private int dish_size, worm_count;
     private boolean chirped_empty;
 
