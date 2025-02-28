@@ -34,7 +34,7 @@ int main (int argc, char *argv[]) {
             for (int i = 1; i < size; i++) {
                 MPI_Recv(&buf[i], 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
                 if (debug) {
-                    printf("Collector got value %d from proc %d in round %d.\n", buf[i], i, round);
+                    printf("Collector got value %d from proc %d in round %d.\n", buf[i], i, round + 1);
                 }
                 buf[i]++; /* Simulated "work", adding 1 to value */
             }
@@ -43,7 +43,7 @@ int main (int argc, char *argv[]) {
             for (int i = 1; i < size; i++) {
                 MPI_Send(&buf[i], 1, MPI_INT, i, 0, MPI_COMM_WORLD);
                 if (debug) {
-                    printf("Collector sent value %d to proc %d in round %d.\n", buf[i], i, round);
+                    printf("Collector sent value %d to proc %d in round %d.\n", buf[i], i, round + 1);
                 }
             }
 
