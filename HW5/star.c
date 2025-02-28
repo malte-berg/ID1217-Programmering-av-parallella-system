@@ -25,7 +25,7 @@ int main (int argc, char *argv[]) {
             buf[0] = -1;
 
             for (int i = 1; i < size; i++) {
-                MPI_recv(&buf[i], 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                MPI_Recv(&buf[i], 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
                 if (debug) {
                     printf("Collector got value %d from proc %d in round %d.", buf[i], i, round);
                 }
