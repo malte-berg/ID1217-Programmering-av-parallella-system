@@ -24,13 +24,39 @@ int main (int argc, char *argv[]) {
     srand(time(NULL) + rank);
     // Set initial value to randomized int
     int proc_value = rand() % 100;
+    if (debug) {
+        printf("Proc %d: %d\n", rank, proc_value);
+    }
 
     // Start "timer"
     double start_time = MPI_Wtime();
     // Repeat for 1-3 rounds
     for (int round = 0; round < NO_OF_ROUNDS; round++) {
+        if (rank == 0) {
+            int min = proc_value, max = proc_value;
+            int *min_max = (int*)malloc(2 * sizeof(int));
+            min_max[0] = min;
+            min_max[1] = max;
 
-        // TODO: IMPLEMENT RING SOLUTION
+            MPI_Send(min_max, 2, MPI_INT, 1, 0, MPI_COMM_WORLD);
+            MPI_Recv(min_max, 2, MPI_INT, size - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Send(min_max, 2, MPI_INT, 1, 0, MPI_COMM_WORLD);
+            if (debug){
+                printf("Min: %d\tMax: %d\tRound: %d\n", min_max[0], min_max[1], round);
+            }
+        } else {
+            int *min_max = (int*)malloc(2 * sizeof(int));
+
+            MPI_Recv(min_max, 2, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            min_max[0] = (proc_value < min_max[0]) ? proc_value : min_max[0];
+            min_max[1] = (proc_value > min_max[1]) ? proc_value : min_max[1];
+            MPI_Send(min_max, 2, MPI_INT, (rank + 1) % size, 0, MPI_COMM_WORLD);
+            MPI_Recv(min_max, 2, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            if (rank < size-1) {
+                MPI_Send(min_max, 2, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
+            }
+
+        }
 
     }
     // Stop "timer"
