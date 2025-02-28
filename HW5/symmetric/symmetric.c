@@ -1,8 +1,9 @@
 #include "mpi.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h> // USED FOR DEBUG
-#include <string.h> // -||-
+#include <stdbool.h>    // USED FOR DEBUG
+#include <string.h>     // -||-
+#include <time.h>       // USED FOR rand()
 
 int main (int argc, char *argv[]) {
     int rank, size;
@@ -19,8 +20,10 @@ int main (int argc, char *argv[]) {
         debug = (strcmp(argv[2], "--DEBUG") == 0);
     }
 
-    // Set initial value to the rank
-    int proc_value = rank;
+    // Randomize with time(NULL) and rank
+    srand(time(NULL) + rank);
+    // Set initial value to randomized int
+    int proc_value = rand() % 100;
 
     // Start "timer"
     double start_time = MPI_Wtime();
