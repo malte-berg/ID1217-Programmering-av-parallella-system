@@ -1,9 +1,9 @@
 #include "mpi.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h> // USED FOR DEBUG
-#include <string.h> // -||-
-#include <time.h>
+#include <stdbool.h>    // USED FOR DEBUG
+#include <string.h>     // -||-
+#include <time.h>       // USED FOR rand()
 
 int main (int argc, char *argv[]) {
     int rank, size;
