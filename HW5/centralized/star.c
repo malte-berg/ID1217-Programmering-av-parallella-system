@@ -22,7 +22,7 @@ int main (int argc, char *argv[]) {
 
     // Randomize with time(NULL) and rank
     srand(time(NULL) + rank);
-    // Set initial value to the rank
+    // Set initial value to randomized int
     int proc_value = rand() % 100;
 
     // Start "timer"
