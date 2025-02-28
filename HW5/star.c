@@ -17,12 +17,13 @@ int main (int argc, char *argv[]) {
         debug = (strcmp(argv[2], "--DEBUG") == 0);
     }
 
-
+    double start_time = MPI_Wtime();
     for (int round = 0; round < NO_OF_ROUNDS; round++) {
         if (rank == 0) {
             int *buf = (int*)malloc(sizeof(int)*size);
 
             buf[0] = -1;
+
 
             for (int i = 1; i < size; i++) {
                 MPI_Recv(&buf[i], 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -38,7 +39,11 @@ int main (int argc, char *argv[]) {
                     printf("Collector sent value %d to proc %d in round %d.", buf[i], i, round);
                 }
             }
+        } else {
+
         }
+        double exec_time = MPI_Wtime() - start_time;
+
     }
     MPI_Finalize();
     return 0;
