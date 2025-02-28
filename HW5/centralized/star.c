@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h> // USED FOR DEBUG
 #include <string.h> // -||-
+#include <time.h>
 
 int main (int argc, char *argv[]) {
     int rank, size;
@@ -19,8 +20,10 @@ int main (int argc, char *argv[]) {
         debug = (strcmp(argv[2], "--DEBUG") == 0);
     }
 
+    // Randomize with time(NULL) and rank
+    srand(time(NULL) + rank);
     // Set initial value to the rank
-    int proc_value = rank;
+    int proc_value = rand() % 100;
 
     // Start "timer"
     double start_time = MPI_Wtime();
@@ -28,30 +31,29 @@ int main (int argc, char *argv[]) {
     for (int round = 0; round < NO_OF_ROUNDS; round++) {
         // Middle process in centralized solution
         if (rank == 0) {
-            int *buf = (int*)malloc(sizeof(int)*size);
+            int new, min = 100, max = -1;
 
-            // Collect values (ranks) from all procs and increase value by 1
+            // Collect the random values from procs and update min and max
             for (int i = 1; i < size; i++) {
-                MPI_Recv(&buf[i], 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                MPI_Recv(&new, 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
                 if (debug) {
-                    printf("Collector got value %d from proc %d in round %d.\n", buf[i], i, round + 1);
+                    printf("Collector got value %d from proc %d in round %d.\n", new, i, round + 1);
                 }
-                buf[i]++; /* Simulated "work", adding 1 to value */
+                max = (new > max) ? new : max;
+                min = (new < min) ? new : min;
             }
-
-            // Send back values (increased ranks) to all procs
+            int min_max[2] = {min, max};
+            // Send back values (min and max)
             for (int i = 1; i < size; i++) {
-                MPI_Send(&buf[i], 1, MPI_INT, i, 0, MPI_COMM_WORLD);
+                MPI_Send(&min_max, 2, MPI_INT, i, 0, MPI_COMM_WORLD);
                 if (debug) {
-                    printf("Collector sent value %d to proc %d in round %d.\n", buf[i], i, round + 1);
+                    printf("Collector sent min_max = {%d, %d} to proc %d in round %d.\n", min, max, i, round + 1);
                 }
             }
-
-            // Free the buffer
-            free(buf);
-        } else { // All other procs, send their value and recieve their new value
+        } else { // All other procs: send their value and recieve the min and max in result array
+            int *result = (int*)malloc(2 * sizeof(int));
             MPI_Send(&proc_value, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-            MPI_Recv(&proc_value, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&result, 2, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
     }
     // Stop "timer"
