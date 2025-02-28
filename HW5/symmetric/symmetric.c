@@ -29,8 +29,41 @@ int main (int argc, char *argv[]) {
     double start_time = MPI_Wtime();
     // Repeat for 1-3 rounds
     for (int round = 0; round < NO_OF_ROUNDS; round++) {
+        int new, min = proc_value, max = proc_value;
 
-        // TODO: IMPLEMENT SYMMETRIC SOLUTION
+        for (int i = 0; i < size; i++) {
+            if (rank == i) continue; // Skip self
+
+            // Avoiding deadlock
+            if (rank % 2 == 0 && i % 2 == 1) { // even to odd
+                MPI_Send(&proc_value, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
+                MPI_Recv(&new, 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            } else if (rank % 2 == 1 && i % 2 == 0) { // odd to even
+                MPI_Recv(&new, 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                MPI_Send(&proc_value, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
+            }
+            // even to even and odd to odd
+            else if (rank < i) {
+                MPI_Send(&proc_value, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
+                MPI_Recv(&new, 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            } else if (rank > i) {
+                MPI_Recv(&new, 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                MPI_Send(&proc_value, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
+            }
+            if (debug) {
+                printf("Proc %d recieved value %d from proc %d (Round %d)\n", rank, new, i, round);
+                fflush(stdout);
+            }
+            max = (new > max) ? new : max;
+            min = (new < min) ? new : min;
+        }
+        if (debug) {
+            if (rank == 0) {
+                printf("\tMin:\t%d\tMax:\t%d (Round %d)\n", min, max, round);
+                fflush(stdout);
+            }
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
 
     }
     // Stop "timer"
