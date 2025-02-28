@@ -45,7 +45,7 @@ int main (int argc, char *argv[]) {
             int min_max[2] = {min, max};
             // Send back values (min and max)
             for (int i = 1; i < size; i++) {
-                MPI_Send(&min_max, 2, MPI_INT, i, 0, MPI_COMM_WORLD);
+                MPI_Send(min_max, 2, MPI_INT, i, 0, MPI_COMM_WORLD);
                 if (debug) {
                     printf("Collector sent min_max = {%d, %d} to proc %d in round %d.\n", min, max, i, round + 1);
                 }
@@ -53,7 +53,7 @@ int main (int argc, char *argv[]) {
         } else { // All other procs: send their value and recieve the min and max in result array
             int *result = (int*)malloc(2 * sizeof(int));
             MPI_Send(&proc_value, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-            MPI_Recv(&result, 2, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(result, 2, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
     }
     // Stop "timer"
